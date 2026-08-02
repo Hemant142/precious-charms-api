@@ -95,13 +95,26 @@ cd D:\Project\PreciousAndCharms\adaptable-oven-8035
 npm start
 ```
 
+## Deploy (Render)
+
+Use these settings so the free/512 MB instance does not OOM:
+
+| Setting | Value |
+|---------|--------|
+| Build Command | `npm install && npm run build` |
+| Start Command | `npm run start:prod` |
+
+`start` / `start:prod` run `node --max-old-space-size=460 dist/main` (compiled JS only — no Nest CLI at runtime).
+
+Ensure env vars on Render: `MONGODB_URI`, `JWT_SECRET`, `PORT` (Render sets this), `MONGO_TLS_ALLOW_INVALID` only if needed for local TLS issues (prefer leaving it unset in production).
+
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
 | `npm run start:dev` | Dev server (watch) |
-| `npm run build` | Build |
-| `npm run start:prod` | Run production build |
+| `npm run build` | Build to `dist/` (heap-limited) |
+| `npm run start` / `start:prod` | Run compiled app (`node dist/main`, heap-limited) |
 | `npm run seed` | Seed products into MongoDB |
 | `npm test` | Unit tests |
 
