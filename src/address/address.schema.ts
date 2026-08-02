@@ -1,22 +1,30 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
 
-@Schema()
+export type AddressDocument = Address & Document;
+
+@Schema({ timestamps: true })
 export class Address {
-  @Prop()
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  userId!: Types.ObjectId;
+
+  @Prop({ required: true })
   name!: string;
 
-  @Prop()
+  @Prop({ required: true })
   mobileNumber!: string;
 
-  @Prop()
+  @Prop({ required: true })
   pincode!: string;
 
-  @Prop()
+  @Prop({ required: true })
   houseNo!: string;
 
   @Prop()
   area!: string;
 
-  @Prop()
+  @Prop({ required: true })
   town!: string;
 }
+
+export const AddressSchema = SchemaFactory.createForClass(Address);

@@ -1,13 +1,18 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
 
-@Schema()
+export type CartDocument = Cart & Document;
+
+@Schema({ timestamps: true })
 export class Cart {
-  @Prop()
-  userId!: string;
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  userId!: Types.ObjectId;
 
-  @Prop()
-  productId!: string;
+  @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
+  productId!: Types.ObjectId;
 
-  @Prop()
+  @Prop({ default: 1 })
   quantity!: number;
 }
+
+export const CartSchema = SchemaFactory.createForClass(Cart);
